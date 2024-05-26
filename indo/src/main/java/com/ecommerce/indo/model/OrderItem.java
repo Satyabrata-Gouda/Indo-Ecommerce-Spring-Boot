@@ -1,12 +1,12 @@
 package com.ecommerce.indo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,24 +18,34 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne
-    private Order order;
+    private AppUser user;
 
-    @ManyToOne
-    private Product product;
+    private String orderId;
 
-    private String size;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItems> orderItems;
 
-    private Integer quantity;
-
-    private Double price;
-
-    private Double discountedPrice;
-
-    private Long userId;
+    private LocalDateTime orderOn;
 
     private LocalDateTime deliveryOn;
 
+    @OneToOne
+    private Address shippingTo;
+
+    @Embedded
+    private PaymentDetails paymentDetails;
+
+    private Double totalPrice;
+
+    private Double totalDiscountedPrice;
+
+    private Integer discount;
+
+    private String orderStatus;
+
+    private Integer totalItem;
+
+    private LocalDateTime createdAt;
 
 }
