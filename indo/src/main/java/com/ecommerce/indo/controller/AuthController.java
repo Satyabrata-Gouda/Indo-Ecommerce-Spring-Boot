@@ -1,6 +1,6 @@
 package com.ecommerce.indo.controller;
 
-import com.ecommerce.indo.UserRepo;
+import com.ecommerce.indo.repo.UserRepo;
 import com.ecommerce.indo.config.CustomUserDetails;
 import com.ecommerce.indo.config.JwtProvider;
 import com.ecommerce.indo.exception.AuthException;
@@ -44,11 +44,7 @@ public class AuthController {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
 
-        AppUser appUser = userRepo.findAppUserByEmail(email);
-
-        if(ObjectUtils.isNotEmpty(appUser)){
-            throw new AuthException("Email is already used with another account.");
-        }
+        AppUser appUser = userRepo.findByEmail(email).orElseThrow(()->new AuthException("Email is already used with another account."));
 
         AppUser createdUser = new AppUser();
         createdUser.setEmail(email);

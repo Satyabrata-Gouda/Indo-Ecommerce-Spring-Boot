@@ -1,6 +1,6 @@
 package com.ecommerce.indo.config;
 
-import com.ecommerce.indo.UserRepo;
+import com.ecommerce.indo.repo.UserRepo;
 import com.ecommerce.indo.exception.AuthException;
 import com.ecommerce.indo.model.AppUser;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,14 +24,9 @@ public class CustomUserDetails implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        AppUser user = userRepo.findAppUserByEmail(username);
-
-        if(ObjectUtils.isEmpty(user)){
-          throw new AuthException("User not found with given mail -"+username);
-        }
+        AppUser user = userRepo.findByEmail(username).orElseThrow(()->new AuthException("User not found with given mail -"+username));
 
         List<GrantedAuthority> authorityList = new ArrayList<>();
-
 
         return new User(user.getEmail(),user.getPassword(),authorityList);
     }

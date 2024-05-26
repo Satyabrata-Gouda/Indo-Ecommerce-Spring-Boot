@@ -2,6 +2,7 @@ package com.ecommerce.indo.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Product {
 
     @Id
@@ -23,9 +25,9 @@ public class Product {
 
     private String description;
 
-    private Integer price;
+    private Double price;
 
-    private Double discountPrice;
+    private Double discountedPrice;
 
     private Integer discountPercent;
 
